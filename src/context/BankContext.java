@@ -13,11 +13,11 @@ public class BankContext {
         this.cardAlgorithm = cardAlgorithm;
     }
 
-    String generateCardNumber(){
+    public String generateCardNumber(){
         return this.cardAlgorithm.generateCardNumber();
     }
 
-    String generatePin(){
+    public String generatePin(){
         return this.cardAlgorithm.generatePin();
     }
 }

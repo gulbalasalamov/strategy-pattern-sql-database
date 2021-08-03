@@ -5,7 +5,7 @@ import service.CardAlgorithm;
 import java.util.Random;
 
 public class CreditCardStrategy implements CardAlgorithm {
-    Random random;
+    Random random = new Random();
 
     @Override
     public String generateCardNumber() {
