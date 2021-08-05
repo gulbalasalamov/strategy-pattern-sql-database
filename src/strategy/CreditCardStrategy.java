@@ -26,7 +26,7 @@ public class CreditCardStrategy implements CardAlgorithm {
         String[] digits = str.toString().split("");
         int sumOfDigits = 0;
         for (int i = 0; i < digits.length; i++) {
-            int digit = Integer.valueOf(digits[i]);
+            int digit = Integer.parseInt(digits[i]);
 
             if (i % 2 == 0) {
                 digit *= 2;

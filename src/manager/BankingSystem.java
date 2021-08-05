@@ -25,6 +25,10 @@ public class BankingSystem {
         this.state = State.MAIN;
     }
 
+    /**
+     * Creates a new account with a randomly generated card number and PIN
+     * then appends the new account to the accounts list
+     */
     public void createAccount() {
         Account account = new Account();
         bankContext.setCardAlgorithm(new CreditCardStrategy());
@@ -37,6 +41,9 @@ public class BankingSystem {
         System.out.println("\nYour card has been created\nYour card number:\n" + account.getCardNumber() + "\nYour card PIN:\n" + account.getPin() + "\n");
     }
 
+    /**
+     * Allows a user to login and perform actions with their account
+     */
     public void loginIntoAccount() {
         System.out.println("Enter your card number: ");
         String cardNumber = scanner.nextLine();
@@ -53,6 +60,13 @@ public class BankingSystem {
         }
     }
 
+    /**
+     * It checks whether corresponding account exists by given parameters cardNumber and pin
+     *
+     * @param cardNumber
+     * @param pin
+     * @return
+     */
     public Account searchForAccount(String cardNumber, String pin) {
         for (Account account : accounts) {
             if (cardNumber.equals(account.getCardNumber()) && pin.equals(account.getPin())) {
@@ -62,6 +76,11 @@ public class BankingSystem {
         return null;
     }
 
+    /**
+     * Prints the account menu and allows the user to choose from options
+     *
+     * @param account
+     */
     public void displayAccountDetails(Account account) {
         while (state == State.LOGIN) {
             System.out.println("1. Balance\n2. Log out\n0. Exit");
@@ -85,19 +104,23 @@ public class BankingSystem {
 
     }
 
+    /**
+     * Allow user to log out and go to previous menu.
+     */
     public void logout() {
         state = State.MAIN;
     }
 
+    /**
+     * It sets the system state EXIT and turns it off.
+     */
     public void shutdown() {
         state = State.EXIT;
         System.out.println("\nBye!");
-    }}
+    }
+}
 
-    /*
-    It check digits by Luhn algorithm to verify that the card number is valid.
-    If no, in order for final card number to pass the validity check, last digit is modified.
-     */
+
 
 
 

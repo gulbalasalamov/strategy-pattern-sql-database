@@ -2,6 +2,9 @@ package model;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents a user's bank account
+ */
 public class Account {
     String cardNumber;
     String pin;
