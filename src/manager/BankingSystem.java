@@ -28,8 +28,7 @@ public class BankingSystem {
     public void createAccount() {
         Account account = new Account();
         bankContext.setCardAlgorithm(new CreditCardStrategy());
-        String cardNumber = bankContext.generateCardNumber();
-        cardNumber = checkSum(cardNumber);
+        String cardNumber = bankContext.generateValidCardNumber();
         String pin = bankContext.generatePin();
         account.setCardNumber(cardNumber);
         account.setPin(pin);
@@ -93,67 +92,12 @@ public class BankingSystem {
     public void shutdown() {
         state = State.EXIT;
         System.out.println("\nBye!");
-    }
-
-    //TODO: Create luhnCheck() method to check digit to verify that the card number is valid
-    //The Luhn algorithm is used to validate a credit card number
-    /*public void luhnCheck(String cardNumber) {
-        //cardNumber is 16 digits and starting index 0, ending 15.
-        int sumOfOdds = 0;
-        int sumOfEvens = 0;
-        for (int i = 1; i < cardNumber.length(); i += 2) {
-            int temp = Integer.parseInt(String.valueOf(cardNumber.charAt(i)));
-            sumOfOdds += temp;
-        }
-
-        for (int i = 0; i < cardNumber.length(); i += 2) {
-            int temp = 2 * Integer.parseInt(String.valueOf(cardNumber.charAt(i)));
-            if (temp > 9) {
-                temp -= 9;
-            }
-            sumOfEvens += temp;
-        }
-    }*/
+    }}
 
     /*
     It check digits by Luhn algorithm to verify that the card number is valid.
     If no, in order for final card number to pass the validity check, last digit is modified.
      */
-    public String checkSum(String cardNumber) {
-        StringBuilder stringBuilder = new StringBuilder(cardNumber);
-        int sum = 0;
-        List<Integer> numbers = new ArrayList<>();
-        //Step1: drop the last digit
-        //Step2: multiply even indexes by 2
-        for (int i = 0; i < stringBuilder.length() - 1; i++) {
-            int temp = 0;
-            if (i % 2 == 0) {
-                temp = 2 * Integer.parseInt(String.valueOf(stringBuilder.charAt(i)));
-                //Step3: Subtract 9 to numbers over 9
-                if (temp >= 10) {
-                    temp -= 9;
-                }
-            } else {
-                temp = Integer.parseInt(String.valueOf(stringBuilder.charAt(i)));
-            }
-            numbers.add(temp);
-        }
-        // Add all numbers
-        numbers.add(Integer.parseInt(String.valueOf(stringBuilder.charAt(15))));
-        for (int i = 0; i < numbers.size(); i++) {
-            sum += numbers.get(i);
-        }
 
-        if (sum % 10 == 0) {
-            return stringBuilder.toString();
-        } else {
-//            int checkSum = 10 - (sum % 10);
-//            String test = "";
-//            test = stringBuilder.deleteCharAt(15).append(checkSum).toString();
-//            String test2 = "";
-//            test2 = stringBuilder.replace(15, 15, String.valueOf(stringBuilder.charAt(15))).toString();
-//            return test + " " + test2;
-            return stringBuilder.replace(15, 15, String.valueOf(stringBuilder.charAt(15))).toString();
-        }
-    }
-}
+
+
