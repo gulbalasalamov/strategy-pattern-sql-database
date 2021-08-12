@@ -1,7 +1,7 @@
 package service;
 
 /**
- * The interface that strategy classes implement
+ * The interface that strategy class implement
  */
 public interface CardAlgorithm {
     String generateValidCardNumber();

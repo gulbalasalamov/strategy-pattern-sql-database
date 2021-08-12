@@ -3,7 +3,7 @@ package manager;
 import context.BankContext;
 import model.Account;
 import model.State;
-import strategy.CreditCardStrategy;
+import strategy.CardStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class BankingSystem {
      */
     public void createAccount() {
         Account account = new Account();
-        bankContext.setCardAlgorithm(new CreditCardStrategy());
+        bankContext.setCardAlgorithm(new CardStrategy());
         String cardNumber = bankContext.generateValidCardNumber();
         String pin = bankContext.generatePin();
         account.setCardNumber(cardNumber);

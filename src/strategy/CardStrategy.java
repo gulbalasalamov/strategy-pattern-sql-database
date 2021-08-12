@@ -5,7 +5,7 @@ import service.CardAlgorithm;
 
 import java.util.Random;
 
-public class CreditCardStrategy implements CardAlgorithm {
+public class CardStrategy implements CardAlgorithm {
     Random random = new Random();
 
     /**
