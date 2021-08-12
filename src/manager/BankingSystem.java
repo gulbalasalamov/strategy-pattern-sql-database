@@ -4,18 +4,20 @@ import context.BankContext;
 import model.Account;
 import model.State;
 import strategy.CardStrategy;
+import strategy.DBStrategy;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class BankingSystem {
-
     BankContext bankContext;
     Scanner scanner;
     //HashMap<String, String> accountData; // (cardNumber,pin)
     List<Account> accounts;
     public State state;
+    Connection connection;
 
     public BankingSystem() {
         this.bankContext = new BankContext();
@@ -23,6 +25,12 @@ public class BankingSystem {
         //this.accountData = new HashMap<>();
         this.accounts = new ArrayList<>();
         this.state = State.MAIN;
+    }
+
+    public void initializeDatabase(String fileName){
+        bankContext.setDbAlgorithm(new DBStrategy());
+        connection = bankContext.getConnection(fileName);
+        bankContext.createTable(connection);
     }
 
     /**
@@ -37,7 +45,7 @@ public class BankingSystem {
         account.setCardNumber(cardNumber);
         account.setPin(pin);
         accounts.add(account);
-        //accountData.put(account.getCardNumber(),account.getPin());
+        bankContext.addAccount(connection,account);
         System.out.println("\nYour card has been created\nYour card number:\n" + account.getCardNumber() + "\nYour card PIN:\n" + account.getPin() + "\n");
     }
 
@@ -119,8 +127,5 @@ public class BankingSystem {
         System.out.println("\nBye!");
     }
 }
-
-
-
 
 
