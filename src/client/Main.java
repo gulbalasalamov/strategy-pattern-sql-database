@@ -9,7 +9,7 @@ public class Main {
     /**
      * Prints the main menu and allows user to select from options for further operations
      * It reads the database file name from the command line argument.
-     * Filename should be passed to the program using -fileName argument
+     * Filename should be passed to the program using -fileName argument, for example, -fileName db.s3db
      * @param args
      */
     public static void main(String[] args) {

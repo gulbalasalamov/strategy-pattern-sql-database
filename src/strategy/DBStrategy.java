@@ -2,7 +2,6 @@ package strategy;
 
 import constant.Constant;
 import model.Account;
-import org.sqlite.SQLiteDataSource;
 import service.DBAlgorithm;
 
 import java.sql.*;
@@ -28,14 +27,12 @@ public class DBStrategy implements DBAlgorithm {
         try {
             // Typically, in the database URL, you also specify the name of an existing database to which you want to connect.
             // However, Constant.URL does not specify a specific database because here the method creates a new database.
-            Connection connection = DriverManager.getConnection(url);
-            return connection;
+            return DriverManager.getConnection(url);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
         return null;
     }
-
 
     @Override
     public void createTable(Connection connection) {
