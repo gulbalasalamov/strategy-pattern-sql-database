@@ -1,5 +1,6 @@
 package manager;
 
+
 import context.BankContext;
 import model.Account;
 import model.State;
@@ -15,7 +16,7 @@ public class BankingSystem {
     BankContext bankContext;
     Scanner scanner;
     //HashMap<String, String> accountData; // (cardNumber,pin)
-    List<Account> accounts;
+    //List<Account> accounts;
     public State state;
     Connection connection;
 
@@ -23,13 +24,14 @@ public class BankingSystem {
         this.bankContext = new BankContext();
         this.scanner = new Scanner(System.in);
         //this.accountData = new HashMap<>();
-        this.accounts = new ArrayList<>();
+        //this.accounts = new ArrayList<>();
         this.state = State.MAIN;
     }
 
-    public void initializeDatabase(String fileName){
+    public void initializeDatabase(String fileName) {
         bankContext.setDbAlgorithm(new DBStrategy());
         connection = bankContext.getConnection(fileName);
+        bankContext.dropTable(connection);
         bankContext.createTable(connection);
     }
 
@@ -44,8 +46,8 @@ public class BankingSystem {
         String pin = bankContext.generatePin();
         account.setCardNumber(cardNumber);
         account.setPin(pin);
-        accounts.add(account);
-        bankContext.addAccount(connection,account);
+        //accounts.add(account);
+        bankContext.addAccount(connection, account);
         System.out.println("\nYour card has been created\nYour card number:\n" + account.getCardNumber() + "\nYour card PIN:\n" + account.getPin() + "\n");
     }
 
@@ -59,6 +61,7 @@ public class BankingSystem {
         String pin = scanner.nextLine();
 
         Account found = searchForAccount(cardNumber, pin);
+
         if (found != null) {
             System.out.println("You have successfully logged in!\n");
             state = State.LOGIN;
@@ -76,12 +79,17 @@ public class BankingSystem {
      * @return
      */
     public Account searchForAccount(String cardNumber, String pin) {
-        for (Account account : accounts) {
-            if (cardNumber.equals(account.getCardNumber()) && pin.equals(account.getPin())) {
-                return account;
-            }
+        Account found = bankContext.loadAccount(connection, cardNumber);
+        if (cardNumber.equals(found.getCardNumber()) && pin.equals(found.getPin())) {
+            return found;
         }
         return null;
+//        for (Account account : accounts) {
+//            if (cardNumber.equals(account.getCardNumber()) && pin.equals(account.getPin())) {
+//                return account;
+//            }
+//        }
+//        return null;
     }
 
     /**
@@ -91,14 +99,27 @@ public class BankingSystem {
      */
     public void displayAccountDetails(Account account) {
         while (state == State.LOGIN) {
-            System.out.println("1. Balance\n2. Log out\n0. Exit");
+            //System.out.println("1. Balance\n2. Log out\n0. Exit");
+            System.out.println("1. Balance \n2. Add income \n3. Do transfer \n4. Close account \n5. Log out \n0. Exit");
             String choice = scanner.next();
             switch (choice) {
                 case "1":
                     System.out.println("\nBalance: " + account.getBalance());
                     break;
                 case "2":
-                    System.out.println("");
+                    System.out.println("Enter income:");
+                    int income = scanner.nextInt();
+                    addIncome(connection, account.getCardNumber(), income);
+                    break;
+                case "3":
+                    //TODO: method
+                    //doTransfer();
+                    break;
+                case "4":
+                    //TODO: method
+                    closeAccount(connection,account.getCardNumber());
+                    break;
+                case "5":
                     logout();
                     break;
                 case "0":
@@ -110,6 +131,15 @@ public class BankingSystem {
             }
         }
 
+    }
+
+    public void closeAccount(Connection connection, String cardNumber){
+        bankContext.deleteAccount(connection,cardNumber);
+        state = State.MAIN;
+    }
+
+    public void addIncome(Connection connection, String cardNumber, int amount) {
+        bankContext.updateAccount(connection, cardNumber, amount);
     }
 
     /**
@@ -127,5 +157,8 @@ public class BankingSystem {
         System.out.println("\nBye!");
     }
 }
+
+
+
 
 
