@@ -1,9 +1,9 @@
 package context;
 
-import service.CardAlgorithm;
-
 import model.Account;
+import service.CardAlgorithm;
 import service.DBAlgorithm;
+
 import java.sql.Connection;
 
 /**
@@ -46,12 +46,15 @@ public class BankContext {
         this.dbAlgorithm.addAccount(connection, account);
     }
 
-    public void loadAccount(Connection connection, Account account) {
-        this.dbAlgorithm.loadAccount(connection, account);
+    public void updateAccount(Connection connection, String searchCriteria, int amount) {
+        this.dbAlgorithm.updateAccount(connection, searchCriteria, amount);
     }
 
-    public void updateAccount(Connection connection, Account account) {
-        this.dbAlgorithm.updateAccount(connection, account);
+    public Account loadAccount(Connection connection, String searchCriteria) {
+        return this.dbAlgorithm.loadAccount(connection, searchCriteria);
     }
 
+    public void deleteAccount(Connection connection, String searchCriteria){
+        dbAlgorithm.deleteAccount(connection,searchCriteria);
+    }
 }
