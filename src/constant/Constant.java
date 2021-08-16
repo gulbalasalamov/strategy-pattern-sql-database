@@ -13,7 +13,8 @@ public class Constant {
     public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS card";
     public static final String SQL_INSERT = "INSERT INTO card (id,number,pin,balance) VALUES (?,?,?,?)";
     public static final String SQL_UPDATE = "UPDATE card SET balance = ? WHERE number = ?";
-    public static final String SQL_LOAD_ACCOUNT = "SELECT * FROM card WHERE number =?";
+    public static final String SQL_LOAD_ACCOUNT = "SELECT * FROM card";
+    //public static final String SQL_LOAD_ACCOUNT = "SELECT id, number, pin, balance FROM card WHERE number =?";
     public static final String SQL_DELETE_ACCOUNT = "DELETE FROM card WHERE number =?";
-    public static final int RESULT_OBJECT = Integer.MAX_VALUE; //Unique id for loading account
+    public static final int RESULT_OBJECT_ID = Integer.MAX_VALUE; //Unique id for loading account
 }

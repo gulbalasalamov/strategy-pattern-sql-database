@@ -1,4 +1,5 @@
 package strategy;
+
 import constant.Constant;
 import model.Account;
 import service.DBAlgorithm;
@@ -88,28 +89,33 @@ public class DBStrategy implements DBAlgorithm {
     @Override
     public Account loadAccount(Connection connection, String searchCriteria) {
 
-        Account result = new Account(RESULT_OBJECT);
+        int id = 0;
+        String number = "";
+        String pin = "";
+        int balance = 0;
+        Account result = new Account(RESULT_OBJECT_ID);
+
         //https://alvinalexander.com/blog/post/jdbc/jdbc-preparedstatement-select-like/ using prep
         //https://www.ibm.com/docs/en/db2/11.1?topic=applications-retrieving-data-from-tables-using-preparedstatementexecutequery-method
 
         //try (connection) {
         try {
-            connection.setAutoCommit(false);
-            //Savepoint savepoint0 = connection.setSavepoint();
+            //connection.setAutoCommit(false);
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_LOAD_ACCOUNT)) {
-                preparedStatement.setString(2, searchCriteria); // Assign value to input parameter
-                ResultSet resultSet = preparedStatement.executeQuery(); // Get the result table from the query
-                while (resultSet.next()) { // position the cursor
-                    result.setId(resultSet.getInt(1));//You can retrieve values using either the index number of the column or the alias or name of the column or the alias or name of the column.
-                    result.setCardNumber(resultSet.getString(2)); //The column index is usually more efficient
-                    result.setPin(resultSet.getString(3));
-                    result.setBalance(resultSet.getInt(4));
-                    connection.commit();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                //connection.rollback(savepoint0); no need to rollback? as we aren't changing anything in records
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_LOAD_ACCOUNT);
+            //preparedStatement.setString(2,searchCriteria);
+            //preparedStatement.setString(2, searchCriteria); // Assign value to input parameter
+            ResultSet resultSet = preparedStatement.executeQuery(); // Get the result table from the query
+            while (resultSet.next()) { // position the cursor
+                result.setId(resultSet.getInt(1));//You can retrieve values using either the index number of the column or the alias or name of the column or the alias or name of the column.
+                //id = resultSet.getInt(1);
+                result.setCardNumber(resultSet.getString(2)); //The column index is usually more efficient
+                //number = resultSet.getString(2);
+                result.setPin(resultSet.getString(3));
+                //pin = resultSet.getString(3);
+                result.setBalance(resultSet.getInt(4));
+                //balance = resultSet.getInt(4);
+                //connection.commit();
             }
         } catch (SQLException e) {
             e.printStackTrace();
