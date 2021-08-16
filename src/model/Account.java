@@ -1,27 +1,22 @@
 package model;
 
-import java.math.BigDecimal;
-
 /**
  * Represents a user's bank account
  */
 public class Account {
     static int ID = 0;
-    int id = 0;
+    int id;
     String cardNumber;
     String pin;
-    BigDecimal balance = new BigDecimal(0);
+    int balance = 0;
+    //BigDecimal balance = new BigDecimal(0);
 
     public Account() {
         ID++;
         this.id = ID;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public Account(int id){
         this.id = id;
     }
 
@@ -41,11 +36,19 @@ public class Account {
         this.pin = pin;
     }
 
-    public BigDecimal getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
