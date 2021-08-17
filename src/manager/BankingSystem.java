@@ -9,6 +9,7 @@ import strategy.CardStrategy;
 import strategy.DBStrategy;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BankingSystem {
@@ -172,10 +173,16 @@ public class BankingSystem {
     }
 
     /**
-     * It sets the system state EXIT and turns it off.
+     * It sets the system state EXIT and turns the system off.
+     * After choosing 'Exit', program stops and close database connection!
      */
     public void shutdown() {
         state = State.EXIT;
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         System.out.println("\nBye!");
     }
 }
