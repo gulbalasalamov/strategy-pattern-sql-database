@@ -114,7 +114,7 @@ public class BankingSystem {
                     break;
                 case "4":
                     //TODO: method
-                    //closeAccount(connection,account.getCardNumber());
+                    closeAccount(connection,account);
                     break;
                 case "5":
                     logout();

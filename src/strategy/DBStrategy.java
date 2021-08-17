@@ -168,13 +168,12 @@ public class DBStrategy implements DBAlgorithm {
 
     @Override
     public void deleteAccount(Connection connection,Account customer) {
-        //TODO: fix parameter
         try {
             connection.setAutoCommit(false);
             Savepoint savepoint0 = connection.setSavepoint();
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_ACCOUNT)) {
-                preparedStatement.setString(2, customer.getCardNumber());
+                preparedStatement.setString(1, customer.getCardNumber());
                 preparedStatement.executeUpdate();
                 connection.commit();
             } catch (SQLException e) {
