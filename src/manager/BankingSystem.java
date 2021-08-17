@@ -91,7 +91,6 @@ public class BankingSystem {
                     addIncome(connection, income, account);
                     break;
                 case "3":
-                    //TODO: method
                     System.out.println("Transfer\nEnter card number:");
                     String cardNumber = scanner.next();
                     doTransfer(connection,account,cardNumber);
@@ -112,8 +111,15 @@ public class BankingSystem {
         }
     }
 
+    /**
+     * Checks by Luhn algorithm whether given recipient cardnumber is valid and such card number exists in accounts
+     * Provided that two conditions are met, it makes transfer
+     * The amount is deducted from sender balance.
+     * @param connection
+     * @param sender
+     * @param recipient
+     */
     public void doTransfer(Connection connection,Account sender, String recipient) {
-         //else if
 
         if (!bankContext.checkLuhn(recipient)) {
             System.out.println("Probably you made a mistake in the card number. Please try again!");
@@ -124,7 +130,6 @@ public class BankingSystem {
                 System.out.println("Enter how much money you want to transfer");
                 int amount = scanner.nextInt();
                 if (sender.getBalance()>=amount){
-                    //TODO: do operation
                     bankContext.updateBalance(connection,-amount,sender);
                     System.out.println("Success!");
                 } else {
