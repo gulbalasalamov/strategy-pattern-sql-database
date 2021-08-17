@@ -1,6 +1,8 @@
 package service;
 
 import model.Account;
+import model.Search;
+
 import java.sql.Connection;
 
 
@@ -16,9 +18,11 @@ public interface DBAlgorithm {
 
     void addAccount(Connection connection, Account account);
 
-    void updateAccount(Connection connection, String searchCriteria, int amount);
+    Account checkLogin(Connection connection, String number, String pin);
 
-    Account loadAccount(Connection connection, String searchCriteria);
+    void updateBalance(Connection connection,int amount,Account account);
 
-    void deleteAccount(Connection connection, String searchCriteria);
+    Account loadAccount(Connection connection, Search searchCriteria, Account account);
+
+    void deleteAccount(Connection connection,Account account);
 }

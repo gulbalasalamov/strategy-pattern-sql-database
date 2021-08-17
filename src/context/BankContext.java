@@ -1,6 +1,7 @@
 package context;
 
 import model.Account;
+import model.Search;
 import service.CardAlgorithm;
 import service.DBAlgorithm;
 
@@ -46,15 +47,19 @@ public class BankContext {
         this.dbAlgorithm.addAccount(connection, account);
     }
 
-    public void updateAccount(Connection connection, String searchCriteria, int amount) {
-        this.dbAlgorithm.updateAccount(connection, searchCriteria, amount);
+    public void updateBalance(Connection connection, int amount, Account account) {
+        this.dbAlgorithm.updateBalance(connection,amount, account);
     }
 
-    public Account loadAccount(Connection connection, String searchCriteria) {
-        return this.dbAlgorithm.loadAccount(connection, searchCriteria);
+    public Account checkLogin(Connection connection, String number, String pin) {
+        return dbAlgorithm.checkLogin(connection, number, pin);
     }
 
-    public void deleteAccount(Connection connection, String searchCriteria){
-        dbAlgorithm.deleteAccount(connection,searchCriteria);
+    public Account loadAccount(Connection connection, Search searchCriteria, Account account) {
+        return this.dbAlgorithm.loadAccount(connection, searchCriteria, account);
+    }
+
+    public void deleteAccount(Connection connection, Account customer) {
+        dbAlgorithm.deleteAccount(connection, customer);
     }
 }
