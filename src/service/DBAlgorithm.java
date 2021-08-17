@@ -24,5 +24,7 @@ public interface DBAlgorithm {
 
     Account loadAccount(Connection connection, Search searchCriteria, Account account);
 
+    boolean doesAccountExist(Connection connection, String cardNumber);
+
     void deleteAccount(Connection connection,Account account);
 }

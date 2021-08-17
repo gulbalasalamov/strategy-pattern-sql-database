@@ -59,6 +59,10 @@ public class BankContext {
         return this.dbAlgorithm.loadAccount(connection, searchCriteria, account);
     }
 
+    public boolean doesAccountExist(Connection connection, String cardNumber){
+        return this.dbAlgorithm.doesAccountExist(connection,cardNumber);
+    }
+
     public void deleteAccount(Connection connection, Account customer) {
         dbAlgorithm.deleteAccount(connection, customer);
     }

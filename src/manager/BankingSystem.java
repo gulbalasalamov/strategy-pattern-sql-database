@@ -14,19 +14,20 @@ import java.util.Scanner;
 public class BankingSystem {
     BankContext bankContext;
     Scanner scanner;
-    //HashMap<String, String> accountData; // (cardNumber,pin)
-    //List<Account> accounts;
     public State state;
     Connection connection;
 
     public BankingSystem() {
         this.bankContext = new BankContext();
         this.scanner = new Scanner(System.in);
-        //this.accountData = new HashMap<>();
-        //this.accounts = new ArrayList<>();
         this.state = State.MAIN;
     }
 
+    /**
+     * Initializes database. To avoid potential db issues, during each building existing database drops and creates a new one in the scope of the project.
+     *
+     * @param fileName
+     */
     public void initializeDatabase(String fileName) {
         bankContext.setDbAlgorithm(new DBStrategy());
         connection = bankContext.getConnection(fileName);
@@ -51,7 +52,8 @@ public class BankingSystem {
     }
 
     /**
-     * Allows a user to login and perform actions with their account
+     * Allows a user to login and perform further actions with their associated account if given parameters cardNumber and pin are valid
+     * It calls displayAccountDetails() and passes corresponding account object
      */
     public void loginIntoAccount() {
         System.out.println("Enter your card number: ");
@@ -59,34 +61,15 @@ public class BankingSystem {
         System.out.println("Enter your PIN: ");
         String pin = scanner.nextLine();
 
-        //Account found = searchForAccount(cardNumber, pin);
         Account customer = bankContext.checkLogin(connection, cardNumber, pin);
-        //TODO: implement sql login
         if (customer != null) {
             System.out.println("You have successfully logged in!\n");
             state = State.LOGIN;
             displayAccountDetails(customer);
-            //bankContext.deleteAccount(connection,);
         } else {
             System.out.println("\nWrong card number or PIN!\n");
         }
     }
-
-    /**
-     * It checks whether corresponding account exists by given parameters cardNumber and pin
-     *
-     * @param cardNumber
-     * @param pin
-     * @return
-     */
-//    public Account searchForAccount(String cardNumber, String pin) {
-//        //TODO: fix. This method will implement sql.
-//        Account found = bankContext.checkLogin(connection,cardNumber,pin);
-//        if (cardNumber.equals(found.getCardNumber()) && pin.equals(found.getPin())) {
-//            return found;
-//        }
-//        return null;
-//    }
 
     /**
      * Prints the account menu and allows the user to choose from options
@@ -99,9 +82,8 @@ public class BankingSystem {
             String choice = scanner.next();
             switch (choice) {
                 case "1":
-                    //System.out.println("\nBalance: " + account.getBalance());
                     Account temp = bankContext.loadAccount(connection, Search.BALANCE, account);
-                    System.out.println(temp.getBalance());
+                    System.out.println("Balance: " + temp.getBalance() + "\n");
                     break;
                 case "2":
                     System.out.println("Enter income:");
@@ -110,11 +92,12 @@ public class BankingSystem {
                     break;
                 case "3":
                     //TODO: method
-                    //doTransfer();
+                    System.out.println("Enter card number:");
+                    String cardNumber = String.valueOf(scanner.nextInt());
+                    doTransfer(connection,account,cardNumber);
                     break;
                 case "4":
-                    //TODO: method
-                    closeAccount(connection,account);
+                    closeAccount(connection, account);
                     break;
                 case "5":
                     logout();
@@ -129,13 +112,35 @@ public class BankingSystem {
         }
     }
 
+    public void doTransfer(Connection connection,Account sender, String recipient) {
+        if (!bankContext.doesAccountExist(connection,recipient)){
+            System.out.println("Such a card does not exist.");
+        } //else if
+    }
+
+    /**
+     * Closes the customer account and logs off. The main screen will show up.
+     *
+     * @param connection
+     * @param customer
+     */
     public void closeAccount(Connection connection, Account customer) {
         bankContext.deleteAccount(connection, customer);
+        System.out.println("The account has been closed!");
         state = State.MAIN;
     }
 
+    /**
+     * Allow user to add money into their account
+     *
+     * @param connection
+     * @param amount
+     * @param account
+     */
     public void addIncome(Connection connection, int amount, Account account) {
         bankContext.updateBalance(connection, amount, account);
+        System.out.println("Income was added!\n");
+
     }
 
     /**
