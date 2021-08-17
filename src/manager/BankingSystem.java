@@ -92,8 +92,8 @@ public class BankingSystem {
                     break;
                 case "3":
                     //TODO: method
-                    System.out.println("Enter card number:");
-                    String cardNumber = String.valueOf(scanner.nextInt());
+                    System.out.println("Transfer\nEnter card number:");
+                    String cardNumber = scanner.next();
                     doTransfer(connection,account,cardNumber);
                     break;
                 case "4":
@@ -113,9 +113,25 @@ public class BankingSystem {
     }
 
     public void doTransfer(Connection connection,Account sender, String recipient) {
-        if (!bankContext.doesAccountExist(connection,recipient)){
-            System.out.println("Such a card does not exist.");
-        } //else if
+         //else if
+
+        if (!bankContext.checkLuhn(recipient)) {
+            System.out.println("Probably you made a mistake in the card number. Please try again!");
+        } else {
+            if (!bankContext.doesAccountExist(connection,recipient)){
+                System.out.println("Such a card does not exist.");
+            } else {
+                System.out.println("Enter how much money you want to transfer");
+                int amount = scanner.nextInt();
+                if (sender.getBalance()>=amount){
+                    //TODO: do operation
+                    bankContext.updateBalance(connection,-amount,sender);
+                    System.out.println("Success!");
+                } else {
+                    System.out.println("Not enough money");
+                }
+            }
+        }
     }
 
     /**

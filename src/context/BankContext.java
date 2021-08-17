@@ -31,6 +31,10 @@ public class BankContext {
         return this.cardAlgorithm.generatePin();
     }
 
+    public boolean checkLuhn(String cardNumber){
+        return this.cardAlgorithm.checkLuhn(cardNumber);
+    }
+
     public Connection getConnection(String fileName) {
         return this.dbAlgorithm.getConnection(fileName);
     }

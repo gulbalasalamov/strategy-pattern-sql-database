@@ -6,4 +6,5 @@ package service;
 public interface CardAlgorithm {
     String generateValidCardNumber();
     String generatePin();
+    boolean checkLuhn(String cardNumber);
 }
