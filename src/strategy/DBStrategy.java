@@ -7,6 +7,8 @@ import service.DBAlgorithm;
 
 import java.sql.*;
 
+import org.sqlite.SQLiteDataSource;
+
 import static constant.Constant.*;
 
 /*
@@ -28,15 +30,17 @@ public class DBStrategy implements DBAlgorithm {
      */
     @Override
     public Connection getConnection(String fileName) {
+        Connection connection = null;
         String url = Constant.URL + fileName;
+
+        SQLiteDataSource sds = new SQLiteDataSource();
+        sds.setUrl(url);
         try {
-            // Typically, in the database URL, you also specify the name of an existing database to which you want to connect.
-            // However, Constant.URL does not specify a specific database because here the method creates a new database.
-            return DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            connection = sds.getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+    return connection;
     }
 
     /**
@@ -231,6 +235,7 @@ public class DBStrategy implements DBAlgorithm {
 
     /**
      * Verifies that given account number exists
+     *
      * @param connection
      * @param cardNumber
      * @return

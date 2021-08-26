@@ -18,22 +18,18 @@ public class BankingSystem {
     public State state;
     Connection connection;
 
-    public BankingSystem() {
-        this.bankContext = new BankContext();
-        this.scanner = new Scanner(System.in);
-        this.state = State.MAIN;
-    }
-
     /**
      * Initializes database. To avoid potential db issues, during each building existing database drops and creates a new one in the scope of the project.
-     *
      * @param fileName
      */
-    public void initializeDatabase(String fileName) {
+    public BankingSystem(String fileName) {
+        this.bankContext = new BankContext();
         bankContext.setDbAlgorithm(new DBStrategy());
-        connection = bankContext.getConnection(fileName);
+        this.connection = bankContext.getConnection(fileName);
         bankContext.dropTable(connection);
         bankContext.createTable(connection);
+        this.scanner = new Scanner(System.in);
+        this.state = State.MAIN;
     }
 
     /**

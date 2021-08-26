@@ -2,7 +2,7 @@ package constant;
 
 public class Constant {
     public static final String BANK_IDENTIFICATION_NUMBER = "400000";
-    public static final String URL = "jdbc:sqlite:"; //String url = "jdbc:sqlite:" + args[1]; // // SQLite connection string for creating DB
+    public static final String URL = "jdbc:sqlite:  "; //String url = "jdbc:sqlite:" + args[1]; // // SQLite connection string for creating DB
     public static final String SQL_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS card (\n"
             + "id INTEGER PRIMARY KEY,\n"
             + "number TEXT,\n"

@@ -24,8 +24,7 @@ public class Main {
         }
 
         Scanner scanner = new Scanner(System.in);
-        BankingSystem bankingSystem = new BankingSystem();
-        bankingSystem.initializeDatabase(fileName);
+        BankingSystem bankingSystem = new BankingSystem(fileName);
 
         while (bankingSystem.state != State.EXIT) {
             System.out.println("1. Create an account\n2. Log into account\n0. Exit");
