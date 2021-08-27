@@ -21,9 +21,13 @@ The banking system is able to:
 Menu screen reads user input and provides further instruction up on user request. 
 System creates new database during launch so provide the database name in build argument before running. (for exp: -fileName db.s3db)
 
-The symbol > represents the user input. Notice that it's not a part of the input.
+## UML Class Diagram
+
+![Intro Page](https://github.com/gulbalasalamov/strategy-pattern-sql-database/blob/master/src_uml_left_to_right_edited.png)
+
 
 ## Example 1:
+The symbol > represents the user input. Notice that it's not a part of the input.
 
 1. Create an account
 2. Log into account
